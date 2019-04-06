@@ -1,0 +1,14 @@
+/vendor
+/node_modules
+.env
+
+public/tmp/*
+app/storage/fonts/*
+
+/.idea
+/nbproject
+/.sass-cache/*
+
+
+# sublime phpintel plugin
+/.phpintel
