@@ -23,8 +23,8 @@ class Apps extends Model
 		
 		$app = new self;
 		$app->web_id = $data['web_id'];
-		$app->app_name = $data['app_name'];
-		$app->developer_name = $data['developer_name'];
+		$app->app_name = utf8_encode($data['app_name']);
+		$app->developer_name = utf8_encode($data['developer_name']);
 		$app->category_id = $data['category_id'];
 		
 		if($app->save() === true){
