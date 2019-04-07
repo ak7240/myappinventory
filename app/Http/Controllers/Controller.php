@@ -7,73 +7,63 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use App\Models\Apps;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function getIndex()
+    public function getIndex(Request $request)
     {
-        $crawler = \Goutte::request('POST', 'https://play.google.com/store/apps/collection/topselling_free', 
-        	[	
-            'start' => 0,
-				    'num' => 10,
-				    'numChildren' => 0,
-				    'ipf'=> 1,
-				    'xhr'=> 1
-			     ]);
+      $input_param = $request->input();
 
-  
-      $app_ids = $crawler->filter('.preview-overlay-container')->each(function ($node){
-          
-         return $node->attr('data-docid');
-      });
-    	
-      $app_details = [];
-      foreach ($app_ids as $value) {
-        $app_details[] = array_merge(['app_id' => $value], self::getAppDetail($value));
+      $offset = (isset($input_param['offset']) === true) ? (int) $input_param['offset'] : 0;
+      $total = (isset($input_param['total']) === true && $input_param['total'] <= 50) ? (int) $input_param['total'] : 20;
+
+      $ajax = (isset($input_param['ajax']) === true) ? (int) $input_param['ajax'] : 0;
+
+      if($ajax === 0){
+        $offset = 0;
+        $total = 20;
       }
 
-      echo json_encode($app_details);exit();
+      $app = new Apps;
+      $app_details = $app->getAppList($offset, $total);
 
+      return \View::make('home', ['app_details' => $app_details, 'ajax' => $ajax]);
       
     }
 
-    public static function getAppDetail(String $app_id){
-      $crawler = \Goutte::request('GET', 'https://play.google.com/store/apps/details?id='.$app_id);
-      $app_name = $crawler->filter('.AHFaub span')->text();
-      $app_image = $crawler->filter('.dQrBL img')->attr('src');
-      $developer_name_and_app_type = $crawler->filter('.T32cc a')->each(function($node){ return $node->text();});  
-      $developer_name = $developer_name_and_app_type[0];
-      $app_type = $developer_name_and_app_type[1];  
+    public function getAppDetails(Request $request)
+    {
+      $input_param = $request->input();
+      
+      // Redirect when no package pass in request params.
+      if(empty($input_param['pkg']) === true){
+          return Redirect::to('/');
+      }
 
-      $description = $crawler->filter('.DWPxHb content div')->html();
-      $app_rating = $crawler->filter('.BHMmbe')->text();
+      $app = new Apps;
+      $app_details = $app->getAppDetails($input_param['pkg']);
+      
+      if(empty($app_details) === true){
+        return \View::make('404', []);   
+      }
 
-      $addition_info = $crawler->filter('.IxB2fe .hAyfc')->each(function($node){
-        return [
-          'info_type' => $node->filter('.BgcNfc')->text(),
-          'info' => $node->filter('.htlgb')->text()
-        ];
-      });
+      $app_details['screenshot'] = json_decode($app_details['screenshot']);
+      foreach ($app_details['screenshot'] as $key => $value) {
+        if(strpos($value, 'lh3.googleusercontent.com') === false){
+          unset($app_details['screenshot'][$key]);
+        }
+      }
+      
+      $app_details['video'] = json_decode($app_details['video']);
+      $app_details['additional_info'] = json_decode($app_details['additional_info']);
 
-      $app_screenshot = $crawler->filter('.PlKpub .R66Fic')->each(function($node){ return $node->filter('img')->attr('src');});
+      return \View::make('detail', ['app_details' => $app_details]); 
 
-      $app_video = $crawler->filter('.PlKpub .MSLVtf')->each(function($node){ return [
-          'video_url' => $node->filter('.TdqJUe button')->attr('data-trailer-url'),
-          'video_image_url' => $node->filter('img')->attr('src')
-      ];});
-
-
-      return [
-        'app_name' => $app_name,
-        'app_image' => $app_image,
-        'developer_name' => $developer_name,
-        'app_type'  => $app_type,
-        'description' => $description,
-        'app_rating' => $app_rating,
-        'addition_info' => $addition_info,
-        'app_screenshot' => $app_screenshot,
-        'app_video' => $app_video
-      ];
+      
     }
 }

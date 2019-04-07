@@ -1,0 +1,162 @@
+@charset 'UTF-8';
+header {
+	background: url(../banner.jpg);
+	position: relative!important;
+	padding: 30px 30px 30px;
+	margin-bottom: 30px;
+	color: #000
+}
+
+.title {
+	display: block;
+	margin: 10px 3px 0 0
+}
+
+.header-style {
+	font-family: cursive;
+    padding-bottom: 20px;
+}
+
+
+body {
+	font-family: Roboto, sans-serif
+}
+
+.text-left,
+.text-left-center {
+	text-align: left!important
+}
+
+.text-right-center {
+	text-align: right!important
+}
+
+.bold {
+	font-weight: 400;
+	font-size: 16px
+}
+
+.text-underline {
+	text-decoration: underline!important
+}
+
+.text-blue {
+	color: #335aa1
+}
+
+.mg-0 {
+	margin: 0!important
+}
+
+.pd-0 {
+	padding: 0!important
+}
+
+.py-10 {
+	padding-bottom: 10px!important;
+	padding-top: 10px!important
+}
+
+.box-border {
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .075);
+	margin-bottom: 1.5em;
+	overflow: hidden;
+	padding: 15px;
+	position: relative
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 5px
+}
+
+a {
+	color: #335aa1
+}
+
+blockquote {
+	font-size: 14px!important;
+	margin: 10px 0;
+	text-align: justify
+}
+
+.dis-non {
+	display: none
+}
+
+
+.box {
+	border: 1px solid #e7e7e7;
+	border-radius: 1px;
+	background-color: #fff;
+	padding: 15px;
+	margin-bottom: 1.3em
+}
+
+
+.star_1:before,
+.star_2:before,
+.star_3:before,
+.star_4:before,
+.star_5:before {
+	font-family: fontawesome;
+	color: #fc8600
+}
+
+.star_1:before {
+	content: "\f005"
+}
+
+.star_2:before {
+	content: "\f005\f005"
+}
+
+.star_3:before {
+	content: "\f005\f005\f005"
+}
+
+.star_4:before {
+	content: "\f005\f005\f005\f005"
+}
+
+.star_5:before {
+	content: "\f005\f005\f005\f005\f005"
+}
+
+.star-img,
+.star-sm-img {
+	position: relative
+}
+
+.star-img:after {
+	position: absolute;
+	width: 40px;
+	left: auto;
+	top: auto;
+	height: 45px;
+	content: "\f005";
+	font-family: FontAwesome;
+	margin-left: 5px;
+	color: #fc8600
+}
+
+.star-sm-img:after {
+	position: absolute;
+	width: 40px;
+	left: auto;
+	top: auto;
+	height: 36px;
+	content: "\f005";
+	font-family: FontAwesome;
+	margin-left: 10px;
+	color: #fc8600;
+	font-size: 24px!important;
+	bottom: 0
+}
