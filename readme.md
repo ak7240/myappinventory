@@ -33,7 +33,7 @@ This ContainS top Android Applications
 WebSite : https://myappinventory.000webhostapp.com/
 
 ## Installation Process
-Step 1 : First Clone Project from GitHub
-Step 2 : Run Command - "composer install"
-Step 3 : Make Datbase base or run migration
-Step 4 : Sync DATA Need via cron or make entry in Crontab (php artisan cron:run syncApps)
+Step 1 : First Clone Project from GitHub <br>
+Step 2 : Run Command - "composer install" <br>
+Step 3 : Make Datbase base or run migration <br>
+Step 4 : Sync DATA Need via cron or make entry in Crontab (php artisan cron:run syncApps) <br>
