@@ -13,4 +13,4 @@
 
 Route::get('/', 'Controller@getIndex');
 Route::get('/appdetails', 'Controller@getAppDetails');
-Route::get('/appdetails', 'Controller@getScrapping');
+Route::get('/scrap', 'Controller@getScrapping');
