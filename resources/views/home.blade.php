@@ -27,6 +27,7 @@
             <div class="col-md-8">
                <h1 class="header-style">Find interesting Android Applications</h1>
             </div>
+            <button type="button" class="btn btn-primary btn-lg scrap-data" onclick="scrapData();">Sync Data</button>
          </div>
       </header>
       <div class="container">
@@ -93,6 +94,28 @@
                });
 
          }
+         
+         function scrapData(){
+               $.ajax(
+                  {
+                     url: "/scrap",
+                     type: "get",
+                     beforeSend: function()
+                     {
+                        $('.scrap-data').addClass('disabled');
+                     }
+                  }).done(function(data){
+                     
+                     if(typeof data  != 'undefined'){
+                        $('.scrap-data').removeClass('disabled');
+                     }
+                  })
+                  .fail(function(jqXHR, ajaxOptions, thrownError){
+                     $('.scrap-data').removeClass('disabled');
+                     alert('server not responding... please try after some time');
+                  });
+            
+            }
       </script>
    </body>
 </html>
