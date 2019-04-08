@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Apps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Console\Commands\CronMethods;
 
 class Controller extends BaseController
 {
@@ -31,7 +32,7 @@ class Controller extends BaseController
 
       $app = new Apps;
       $app_details = $app->getAppList($offset, $total);
-
+  
       return \View::make('home', ['app_details' => $app_details, 'ajax' => $ajax]);
       
     }
@@ -65,5 +66,12 @@ class Controller extends BaseController
       return \View::make('detail', ['app_details' => $app_details]); 
 
       
+    }
+
+    public function getScrapping(){
+        $cron_method = new CronMethods();
+        $cron_method->syncApps();
+
+        return true;
     }
 }
